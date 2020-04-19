@@ -1,0 +1,20 @@
+<mat-toolbar color="basic">
+  <mat-toolbar-row>
+    <button type="button" mat-icon-button (click)="drawer.toggle()" color="basic">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Utilisation de spotify</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #drawer mode="side" opened role="navigation" height="200px">
+    <mat-nav-list>
+      <a mat-list-item routerLink="accueil">Accueil</a>
+      <a mat-list-item routerLink="listealbum">Liste Album</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet>
+    </router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

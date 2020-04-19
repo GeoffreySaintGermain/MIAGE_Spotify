@@ -1,0 +1,21 @@
+<form #rechAlbum="ngForm" (ngSubmit)="chercherAlbums(rechAlbum.value.recherche)">
+  <h1>Recherche d'albums</h1> 
+  <mat-form-field>
+    <input matInput type="text" placeholder="recherche" ngModel name="recherche" required>
+  </mat-form-field>
+  <input type="submit" value="Valider">
+</form>
+
+
+<mat-grid-list cols="3">
+  <mat-grid-tile *ngFor="let cd of albums; let i=index">
+    <a [routerLink]="['/cd' , cd.id]"> 
+    <mat-card>
+      <mat-card-header>
+      <mat-card-title>{{cd.name}}</mat-card-title>
+      </mat-card-header>
+        <img src="{{cd.images[0].url}}" width=80> 
+      </mat-card>
+    </a>
+  </mat-grid-tile>
+</mat-grid-list>
