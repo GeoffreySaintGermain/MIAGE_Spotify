@@ -33,6 +33,13 @@ export class SpotifyService {
       );
   }
 
+  getChanteur(mot:string){
+    return this.http.get(
+      this.spotifyUrlSearchChanteur+mot
+      ,{ headers : this.headers}
+      );
+  }
+
   getAlbumId(id : string){
     return this.http.get(
       this.spotifyUrlAlbum+id 
@@ -40,8 +47,64 @@ export class SpotifyService {
       );
   }
 
+  getPlaylist(){
+    return this.http.get(
+      this.spotifyPlaylist + this.userId + '/playlists'
+      ,{headers : this.headers}
+      );
+  }
+
+  getPlaylistTracks(id : string){
+    return this.http.get(
+      this.spotifyPlaylistTracks + id + "/tracks" 
+      ,{headers : this.headers} 
+      );
+  }
+
+  //Enlever une chanson d'une playlist
+  removePlaylistTrack(idPlaylist:string, position : number, uri : string){
+    return this.http.request(
+      "delete",
+      this.spotifyPlaylistTracks + idPlaylist + '/tracks', { 
+        "body" : 
+        { "tracks" : 
+          [{
+            uri: uri , 
+            positions: [position], 
+          }]
+        },
+        "headers" : this.headers
+      }
+    );
+  }
+
   afficherLog(){
     console.log("spotify service :"  + this.spotifyPlaylistTracks + "/tracks"
        + "headers : " + this.headers);
-  }  
+  }
+
+  //Créer une playlist
+  addPlaylist(playlist){
+    this.http.post(this.spotifyPlaylist 
+                    + this.userId 
+                    + "/playlists",playlist,{ headers : this.headers})
+      .subscribe(
+        (res)=>{
+            window.location!.reload()
+            console.log(res)
+          },
+        (err) => console.log(err)
+      );
+  }
+
+  //Ajouter une chanson à une playlist
+  addToPlaylist(track, idPlaylist){
+    this.http.post(this.spotifyPlaylistTracks
+                  + idPlaylist
+                  + "/tracks",track,{ headers : this.headers})
+      .subscribe(resultat=>{
+       (res) => console.log(res);
+        (err) => console.log(err);
+      })
+  }
 }
